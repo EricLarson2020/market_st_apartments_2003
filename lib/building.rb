@@ -74,4 +74,21 @@ class Building
 
   end
 
+  # def annual_rent(renter_name))
+  #   renters_rent = 0
+  #   rented_units.each do |unit|
+  #     if unit.renter.name == renter_name
+  #     renters_rent = unit.monthly_rent
+  #       end
+  #     end
+  #   year_rent = (renters_rent * 12)
+  #   year_rent
+  # end
+  #
+  # def annual_breakdown
+  #
+  #   breakdown = ({"Spencer" => annual_rent("Spencer") })
+  #
+  # end
+
 end
