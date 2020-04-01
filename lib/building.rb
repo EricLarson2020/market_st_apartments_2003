@@ -53,9 +53,7 @@ class Building
   end
 
   def bedroom_units(bedrooms)
-
     bedroom_number = []
-
     units.each do |unit|
 
       if unit.bedrooms == bedrooms
@@ -74,21 +72,44 @@ class Building
 
   end
 
-  # def annual_rent(renter_name))
-  #   renters_rent = 0
-  #   rented_units.each do |unit|
-  #     if unit.renter.name == renter_name
-  #     renters_rent = unit.monthly_rent
-  #       end
-  #     end
-  #   year_rent = (renters_rent * 12)
-  #   year_rent
-  # end
-  #
-  # def annual_breakdown
-  #
-  #   breakdown = ({"Spencer" => annual_rent("Spencer") })
-  #
-  # end
+  def annual_rent(renter_name)
+    renters_rent = 0
+    rented_units.each do |unit|
+      if unit.renter.name == renter_name
+      renters_rent = unit.monthly_rent
+        end
+      end
+    year_rent = (renters_rent * 12)
+    year_rent
+  end
+
+  def annual_breakdown
+    breakdown = Hash.new
+    rented_units.each do |unit|
+       breakdown[unit.renter.name] = annual_rent(unit.renter.name)
+    end
+    breakdown
+  end
+
+  def bed_and_bath(input)
+    bed_and_bath = Hash.new
+    rented_units.each do |unit|
+       if unit.renter == input
+      bed_and_bath[:bathrooms] = unit.bathrooms
+      bed_and_bath[:bedrooms] = unit.bedrooms
+    end
+     end
+    bed_and_bath
+
+end
+
+  def rooms_by_renter
+    breakdown = Hash.new
+    rented_units.each do |unit|
+
+      breakdown[unit.renter] = bed_and_bath(unit.renter)
+    end
+    breakdown
+  end
 
 end

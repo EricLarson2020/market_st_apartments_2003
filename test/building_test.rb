@@ -104,63 +104,50 @@ class BuildingTest < Minitest::Test
                     }
     assert_equal unit_bedrooms, building.units_by_number_of_bedrooms
   end
+
+
+  def test_annual_breakdown
+    building = Building.new
+    unit1 = Apartment.new({number: "A1", monthly_rent: 1200, bathrooms: 1, bedrooms: 1})
+    unit2 = Apartment.new({number: "B2", monthly_rent: 999, bathrooms: 2, bedrooms: 2})
+    unit3 = Apartment.new({number: "C3", monthly_rent: 1150, bathrooms: 2, bedrooms: 2})
+    renter1 = Renter.new("Spencer")
+    building.add_unit(unit1)
+    building.add_unit(unit2)
+    building.add_unit(unit3)
+    unit2.add_renter(renter1)
+    assert_equal ({"Spencer" => 11988}), building.annual_breakdown
+    renter2 = Renter.new("Jessie")
+    unit1.add_renter(renter2)
+    expected = {"Jessie" => 14400, "Spencer" => 11988}
+    assert_equal expected, building.annual_breakdown
+
+  end
+
+  def test_bed_room_and_bathroom_breakdown
+    building = Building.new
+    unit1 = Apartment.new({number: "A1", monthly_rent: 1200, bathrooms: 1, bedrooms: 1})
+    unit2 = Apartment.new({number: "B2", monthly_rent: 999, bathrooms: 2, bedrooms: 2})
+    unit3 = Apartment.new({number: "C3", monthly_rent: 1150, bathrooms: 2, bedrooms: 2})
+    renter1 = Renter.new("Spencer")
+    building.add_unit(unit1)
+    building.add_unit(unit2)
+    building.add_unit(unit3)
+    unit2.add_renter(renter1)
+    renter2 = Renter.new("Jessie")
+    unit1.add_renter(renter2)
+    expected = {
+      renter2 => {bathrooms: 1, bedrooms: 1},
+      renter1 => {bathrooms: 2, bedrooms: 2}
+    }
+    
+    assert_equal expected, building.rooms_by_renter
+
+
+  end
 end
 
-#   def test_annual_breakdown
-#     building = Building.new
-#     unit1 = Apartment.new({number: "A1", monthly_rent: 1200, bathrooms: 1, bedrooms: 1})
-#     unit2 = Apartment.new({number: "B2", monthly_rent: 999, bathrooms: 2, bedrooms: 2})
-#     unit3 = Apartment.new({number: "C3", monthly_rent: 1150, bathrooms: 2, bedrooms: 2})
-#     renter1 = Renter.new("Spencer")
-#     building.add_unit(unit1)
-#     building.add_unit(unit2)
-#     building.add_unit(unit3)
-#     unit2.add_renter(renter1)
-#     assert_equal ({"Spencer" => 11988}), building.annual_breakdown
-#   end
-# end
 
-
-# ```ruby
-# pry(main)> require './lib/building'
-# # => true
-#
-# pry(main)> require './lib/apartment'
-# # => true
-#
-# pry(main)> require './lib/renter'
-# # => true
-#
-# pry(main)> building = Building.new
-# # => #<Building:0x00007fb333c0cec8...>
-#
-# pry(main)> unit1 = Apartment.new({number: "A1", monthly_rent: 1200, bathrooms: 1, bedrooms: 1})
-# # => #<Apartment:0x00007fb333bcd840...>
-#
-# pry(main)> unit2 = Apartment.new({number: "B2", monthly_rent: 999, bathrooms: 2, bedrooms: 2})
-# # => #<Apartment:0x00007fb333a55008...>
-#
-# pry(main)> unit3 = Apartment.new({number: "C3", monthly_rent: 1150, bathrooms: 2, bedrooms: 2})
-# # => #<Apartment:0x00007fa83bc777d0...>
-#
-# pry(main)> renter1 = Renter.new("Spencer")
-# # => #<Renter:0x00007fb333d0d7f0...>
-#
-# pry(main)> building.add_unit(unit1)
-#
-# pry(main)> building.add_unit(unit2)
-#
-# pry(main)> building.add_unit(unit3)
-#
-# pry(main)> unit2.add_renter(renter1)
-#
-# pry(main)> building.annual_breakdown
-# # => {"Spencer" => 11988}
-#
-# pry(main)> renter2 = Renter.new("Jessie")
-# # => #<Renter:0x00007fb333af5a80...>
-#
-# pry(main)> unit1.add_renter(renter2)
 #
 # pry(main)> building.annual_breakdown
 # # => {"Jessie" => 14400, "Spencer" => 11988}
